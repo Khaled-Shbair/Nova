@@ -1,5 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'Checkout Screen.dart';
+import 'Language Screen.dart';
+import 'My Account Screen.dart';
+import 'Payment Screen.dart';
+import 'models/Botton_NavigationBar_Item.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -9,40 +14,82 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int _currentIndex = 0;
+  final List<BottomNavigationBarItems> _BnItems = <BottomNavigationBarItems>[
+    BottomNavigationBarItems(
+        title: 'MyAccountScreen', widget: const MyAccountScreen()),
+    BottomNavigationBarItems(
+        title: 'PaymentScreen', widget: const PaymentScreen()),
+    BottomNavigationBarItems(
+        title: 'LanguageScreen', widget: const LanguageScreen()),
+    BottomNavigationBarItems(
+        title: 'CheckoutScreen', widget: const CheckoutScreen()),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        title: const Text(
-          'Nova',
-          style: TextStyle(
-            fontSize: 17,
+        title: Text(
+          _BnItems[_currentIndex].title,
+          style: const TextStyle(
+            fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: Color(0XFF656565),
+            color: Colors.white,
           ),
-        ),
-        leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.menu),
-        ),
-        iconTheme: const IconThemeData(
-          color: Color(0XFF656565),
         ),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.notifications),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.notes),
+          Visibility(
+            visible:_currentIndex==3 ,
+            child: IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.logout),
+            ),
           ),
         ],
       ),
-      body: ListView(
+      body: _BnItems[_currentIndex].widget,
+      bottomNavigationBar: BottomNavigationBar(
+
+        type: BottomNavigationBarType.shifting,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        currentIndex: _currentIndex,
+        items: const [
+          BottomNavigationBarItem(
+            backgroundColor: Colors.blue,
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            backgroundColor: Colors.red,
+            icon: Icon(Icons.category_outlined),
+            activeIcon: Icon(Icons.category),
+            label: 'Category',
+          ),
+          BottomNavigationBarItem(
+            backgroundColor: Colors.yellowAccent,
+            icon: Icon(Icons.category_outlined),
+            activeIcon: Icon(Icons.category),
+            label: 'Category',
+          ),
+          BottomNavigationBarItem(
+            backgroundColor: Colors.green,
+            icon: Icon(Icons.category_outlined),
+            activeIcon: Icon(Icons.category),
+            label: 'Category',
+          ),
+        ],
+      ),
+    );
+  }
+}
+/*
+ListView(
         padding: const EdgeInsetsDirectional.all(10),
         children: [
           const Text(
@@ -97,9 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-    );
-  }
-}
+*/
 /*
  GridView(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
